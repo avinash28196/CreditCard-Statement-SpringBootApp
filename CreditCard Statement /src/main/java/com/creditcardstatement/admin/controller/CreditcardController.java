@@ -24,6 +24,9 @@ public class CreditcardController {
         return creditCardRepository.findAll(pageable);
     }
 	
+	
+	
+	
 	@DeleteMapping("/creditCards/{Id}")
     public ResponseEntity<?> deletePost(@PathVariable Long Id) {
         return creditCardRepository.findById(Id).map(post -> {
