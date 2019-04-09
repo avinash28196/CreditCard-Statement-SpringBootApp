@@ -11,80 +11,56 @@ class Statements extends React.Component {
     super(props);
     this.state = {
       creditCardsDetails: [],
-      activePage:null,
+      activePage:1,
       totalPages: null,
       itemsCountPerPage:null,
       totalItemsCount:null
     };
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.fetchURL = this.fetchURL.bind(this);
   }
 
+  fetchURL(page) {
 
+    axios.get(`http://localhost:8080/creditCards?page=${page}&limit=10`)
+      .then( response => {
+
+          const totalPages = response.data.totalPages;
+          const itemsCountPerPage = response.data.size;
+          const totalItemsCount = response.data.totalElements;
+
+          this.setState({totalPages: totalPages})
+          this.setState({totalItemsCount: totalItemsCount})
+          this.setState({itemsCountPerPage: itemsCountPerPage})
+
+          const results = response.data.content;
+
+          const updatedResults = results.map(results => {
+            return {
+                ...results,
+              }
+            });
+
+            this.setState({creditCardsDetails: updatedResults});
+            console.log(updatedResults);
+            console.log(this.state.activePage);
+            console.log(this.state.itemsCountPerPage);
+
+        }
+      );
+    }
 
 
   componentDidMount () {
-    axios.get(`http://localhost:8080/creditCards?page=${this.state.activePage}&limit=10`)
-      .then( response => {
-
-              const totalPages = response.data.totalPages;
-              const itemsCountPerPage = response.data.size;
-              const totalItemsCount = response.data.totalElements;
-
-              // const number = response.data.number;
-
-
-              this.setState({totalPages: totalPages})
-              this.setState({itemsCountPerPage: itemsCountPerPage})
-              this.setState({totalItemsCount: totalItemsCount})
-
-              const results = response.data.content;
-              const updatedResults = results.map(results => {
-                  return {
-                      ...results,
-                  }
-              });
-              this.setState({creditCardsDetails: updatedResults});
-              console.log(updatedResults);
-
-              console.log(this.state.itemsCountPerPage);
-
-          } );
+      this.fetchURL(this.state.activePage)
     }
 
-    handlePageChange(pageNumber) {
-      console.log(`active page is ${pageNumber}`);
-      //this.setState({activePage: pageNumber})
-
-      axios.get(`http://localhost:8080/creditCards?page=${pageNumber}&limit=10`)
-        .then( response => {
-
-                const totalPages = response.data.totalPages;
-                const itemsCountPerPage = response.data.size;
-                const totalItemsCount = response.data.totalElements;
-
-                // const number = response.data.number;
-
-
-                this.setState({totalPages: totalPages})
-                this.setState({itemsCountPerPage: itemsCountPerPage})
-                this.setState({totalItemsCount: totalItemsCount})
-
-                const results = response.data.content;
-                const updatedResults = results.map(results => {
-                    return {
-                        ...results,
-                    }
-                });
-                this.setState({creditCardsDetails: updatedResults});
-                console.log(updatedResults);
-
-                console.log(this.state.itemsCountPerPage);
-
-            } );
+  handlePageChange(pageNumber) {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({activePage: pageNumber})
+    this.fetchURL(pageNumber)
 
     }
-
-
 
     populateRowsWithData = () => {
       const userData = this.state.creditCardsDetails.map(user => {
@@ -99,11 +75,6 @@ class Statements extends React.Component {
 
       return userData
     }
-
-
-
-
-
 
   render(){
     return (
@@ -123,10 +94,11 @@ class Statements extends React.Component {
       </table>
       <div className="d-flex justify-content-center">
         <Pagination
+         hideNavigation
          activePage={this.state.activePage}
          itemsCountPerPage={this.state.itemsCountPerPage}
          totalItemsCount={this.state.totalItemsCount}
-         pageRangeDisplayed={this.state.totalPages}
+         pageRangeDisplayed={10}
          itemClass='page-item'
          linkClass='page-link'
          onChange={this.handlePageChange}

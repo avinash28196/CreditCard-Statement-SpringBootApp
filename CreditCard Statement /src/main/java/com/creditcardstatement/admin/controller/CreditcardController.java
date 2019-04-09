@@ -4,6 +4,7 @@ import com.creditcardstatement.admin.model.CreditCard;
 import com.creditcardstatement.admin.repository.CreditCardRepository;
 import com.creditcardstatement.admin.exception.ResourceNotFoundException;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,12 @@ public class CreditcardController {
         return creditCardRepository.findAll(pageable);
     }
 	
+	@GetMapping("/creditCards/find/{Id}")
+	public Page<CreditCard> findById(@PathVariable (value = "Id") Long id,
+           Pageable pageable){
+		return creditCardRepository.findById(id,pageable);
+	}
+	 
 	
 	
 	
