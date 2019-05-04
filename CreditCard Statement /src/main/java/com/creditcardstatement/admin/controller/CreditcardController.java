@@ -29,9 +29,7 @@ public class CreditcardController {
 	public Page<CreditCard> findById(@PathVariable (value = "Id") Long id,
            Pageable pageable){
 		return creditCardRepository.findById(id,pageable);
-	}
-	 
-	
+	}	
 	
 	
 	@DeleteMapping("/creditCards/{Id}")
