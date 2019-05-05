@@ -1,5 +1,6 @@
 package com.creditcardstatement.admin.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,9 +11,12 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "CREDITCARD")
 public class CreditCard {
-
+	
+	
+	
 	@Id
-	private Long ID;
+	@Column(name = "ID")
+	private Long id;
 	
 	@Size(max = 250)
 	private String Name;
@@ -54,12 +58,7 @@ public class CreditCard {
 	private Long PAY_AMT5;
 	private Long PAY_AMT6;
 	private Long DEFAULT_PAYMENT_NEXTMONTH;
-	public Long getID() {
-		return ID;
-	}
-	public void setID(Long iD) {
-		ID = iD;
-	}
+	
 	public String getName() {
 		return Name;
 	}
@@ -210,16 +209,11 @@ public class CreditCard {
 	public void setDEFAULT_PAYMENT_NEXTMONTH(Long dEFAULT_PAYMENT_NEXTMONTH) {
 		DEFAULT_PAYMENT_NEXTMONTH = dEFAULT_PAYMENT_NEXTMONTH;
 	}
-	@Override
-	public String toString() {
-		return "CreditCardModel [ID=" + ID + ", Name=" + Name + ", LIMIT_BAL=" + LIMIT_BAL + ", SEX=" + SEX
-				+ ", EDUCATION=" + EDUCATION + ", MARRIAGE=" + MARRIAGE + ", AGE=" + AGE + ", PAY_1=" + PAY_1
-				+ ", PAY_2=" + PAY_2 + ", PAY_3=" + PAY_3 + ", PAY_4=" + PAY_4 + ", PAY_5=" + PAY_5 + ", PAY_6=" + PAY_6
-				+ ", BILL_AMT1=" + BILL_AMT1 + ", BILL_AMT2=" + BILL_AMT2 + ", BILL_AMT3=" + BILL_AMT3 + ", BILL_AMT4="
-				+ BILL_AMT4 + ", BILL_AMT5=" + BILL_AMT5 + ", BILL_AMT6=" + BILL_AMT6 + ", PAY_AMT1=" + PAY_AMT1
-				+ ", PAY_AMT2=" + PAY_AMT2 + ", PAY_AMT3=" + PAY_AMT3 + ", PAY_AMT4=" + PAY_AMT4 + ", PAY_AMT5="
-				+ PAY_AMT5 + ", PAY_AMT6=" + PAY_AMT6 + ", DEFAULT_PAYMENT_NEXTMONTH=" + DEFAULT_PAYMENT_NEXTMONTH
-				+ "]";
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	
